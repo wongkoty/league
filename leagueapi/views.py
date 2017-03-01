@@ -1,10 +1,13 @@
+from rest_framework import viewsets, authentication, permissions
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, authentication, permissions
-from .serializers import UserSerializer, GroupSerializer, ChampionSerializer
+
+
 from django.http import HttpResponse
 
 from .models import Champion
+from .serializers import UserSerializer, ChampionSerializer
 
 User = get_user_model()
 
@@ -31,17 +34,17 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+# class GroupViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Group.objects.all()
+#     serializer_class = GroupSerializer
 
-class ChampionViewSet(viewsets.ModelViewSet):
+class ChampionViewSet(DefaultMixin, viewsets.ModelViewSet):
     """Api Endpoint for Champions"""
     queryset = Champion.objects.all()
-    serializers_class = ChampionSerializer
+    serializer_class = ChampionSerializer
 
 def index(request):
     return HttpResponse('<h1>Sup playas</h1>')
